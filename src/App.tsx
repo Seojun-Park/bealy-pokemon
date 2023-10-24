@@ -1,11 +1,15 @@
 import { FC, PropsWithChildren } from 'react';
 import { useRoutes } from 'react-router-dom';
 import { routes } from './routes';
-import { FavoriteContextProvider } from './contexts';
+import { FavoriteContextProvider, SearchContextProvider } from './contexts';
 
 const App: FC<PropsWithChildren> = () => {
   const elements = useRoutes(routes);
-  return <FavoriteContextProvider>{elements}</FavoriteContextProvider>;
+  return (
+    <SearchContextProvider>
+      <FavoriteContextProvider>{elements}</FavoriteContextProvider>
+    </SearchContextProvider>
+  );
 };
 
 export default App;

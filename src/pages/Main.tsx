@@ -11,13 +11,15 @@ import {
   Pagination,
   SearchBar,
 } from '../components';
-import { useFavoriteContext } from '../contexts';
+import { useFavoriteContext, useSearchContext } from '../contexts';
 
 export const Main: FC = () => {
   const { favorites } = useFavoriteContext();
+  const { handleSearch: search } = useSearchContext();
   const [perPage, setperPage] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
+  const [searchResult, setSearchResult] = useState<PokemonBase[] | undefined>();
 
   const { data, isLoading, mutate } = useSWR<PokemonAll>(
     `/pokemon/?limit=${perPage}&offset=${currentPage * perPage} - ${perPage}`,
@@ -44,8 +46,12 @@ export const Main: FC = () => {
 
   const handleSearch = () => {
     if (term.trim() === '') {
-      window.alert('You should type any terms to search');
+      window.alert('Should enter any search term');
+      setSearchResult(undefined);
+      return;
     }
+    setSearchResult(search(term));
+    setTerm('');
   };
 
   return (
@@ -81,7 +87,18 @@ export const Main: FC = () => {
         />
       </PaginationBox>
       <Container>
-        {isLoading || !pokemons ? (
+        {searchResult && searchResult.length > 0 ? (
+          searchResult.map((p, i) => {
+            const isLiked = favorites.find((v) => v.name === p.name);
+            return (
+              <Card
+                key={i}
+                isLiked={isLiked ? true : false}
+                url={p.url}
+              />
+            );
+          })
+        ) : isLoading || !pokemons ? (
           <Loading />
         ) : (
           pokemons?.map((p, i) => {
