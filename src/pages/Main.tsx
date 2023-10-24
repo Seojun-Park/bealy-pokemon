@@ -11,8 +11,10 @@ import {
   Pagination,
   SearchBar,
 } from '../components';
+import { useFavoriteContext } from '../contexts';
 
 export const Main: FC = () => {
+  const { favorites } = useFavoriteContext();
   const [perPage, setperPage] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
@@ -83,9 +85,11 @@ export const Main: FC = () => {
           <Loading />
         ) : (
           pokemons?.map((p, i) => {
+            const isLiked = favorites.find((v) => v.name === p.name);
             return (
               <Card
                 key={i}
+                isLiked={isLiked ? true : false}
                 url={p.url}
               />
             );

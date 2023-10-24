@@ -1,3 +1,4 @@
 export * from './Detail';
-export * from './Main';
+export * from './Favorite';
 export * from './ListByType';
+export * from './Main';
