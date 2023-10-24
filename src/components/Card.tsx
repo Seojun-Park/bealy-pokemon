@@ -1,21 +1,26 @@
 import { FC, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import useSWR from 'swr';
 import fetcher from '../utils/fetcher';
 import { Pokemon, PokemonImageProps } from '../type';
 import { ColorType, theme } from '../utils/theme';
 import { Chip } from '.';
+import { Button } from './Button';
+import { useNavigate } from 'react-router-dom';
+import { useFavoriteContext } from '../contexts';
 
 interface CardProps {
   url: string;
+  isLiked?: boolean;
 }
 
-export const Card: FC<CardProps> = ({ url }) => {
+export const Card: FC<CardProps> = ({ url, isLiked }) => {
+  const navigate = useNavigate();
   const { isLoading, data } = useSWR<Pokemon>(url, fetcher);
   const [thumbnail, setThumbnail] =
     useState<PokemonImageProps['front_default']>();
   const [type, setType] = useState<string[]>();
+  const { handleFavorite } = useFavoriteContext();
 
   useEffect(() => {
     if (
@@ -33,7 +38,7 @@ export const Card: FC<CardProps> = ({ url }) => {
   }, [data]);
 
   return (
-    <Wrapper to={`/pokemon/${data?.id}`}>
+    <Wrapper>
       {isLoading ? (
         <span>Loading... </span>
       ) : (
@@ -50,7 +55,6 @@ export const Card: FC<CardProps> = ({ url }) => {
               src={thumbnail || ''}
               height={120}
             />
-            <Name>{data?.name}</Name>
             <TypeBoxContainer>
               {type?.map((t, i) => {
                 return (
@@ -62,6 +66,32 @@ export const Card: FC<CardProps> = ({ url }) => {
                 );
               })}
             </TypeBoxContainer>
+            <Name>{data?.name}</Name>
+            <ActionBox>
+              <Button
+                label={'See detail'}
+                font='GameBoy'
+                onClick={() => navigate(`/pokemon/${data?.id}`)}
+              />
+              <Button
+                icon={
+                  <img
+                    style={{
+                      margin: 0,
+                    }}
+                    src={`/icons/${isLiked ? 'heart-full' : 'heart-empty'}.png`}
+                    width={20}
+                    height={20}
+                  />
+                }
+                onClick={() =>
+                  handleFavorite({
+                    name: data?.name || '',
+                    url,
+                  })
+                }
+              />
+            </ActionBox>
           </Container>
         </>
       )}
@@ -69,23 +99,15 @@ export const Card: FC<CardProps> = ({ url }) => {
   );
 };
 
-const Wrapper = styled(Link)`
+const Wrapper = styled.div`
   background-color: white;
   border-radius: ${theme.spacing.xs}px;
   box-shadow: 0px 6px 15px -4px #000000;
   margin: ${theme.spacing.md}px;
   padding: ${theme.spacing.md}px;
   width: 350px;
-  cursor: pointer;
-  transform: scale(1);
   text-decoration: none;
   color: ${theme.colors.dark};
-
-  &:hover {
-    opacity: 0.8;
-    transition: 0.1s linear;
-    transform: scale(1.04);
-  }
 `;
 
 const Container = styled.div`
@@ -111,10 +133,15 @@ const IdBox = styled.div`
 `;
 
 const Name = styled.span`
+  margin-bottom: ${theme.spacing.sm}px;
   font-family: 'GameBoy';
 `;
 
 const TypeBoxContainer = styled.div`
   display: flex;
-  margin-top: ${theme.spacing.sm}px;
+  margin-bottom: ${theme.spacing.sm}px;
+`;
+
+const ActionBox = styled.div`
+  display: flex;
 `;
