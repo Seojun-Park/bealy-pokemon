@@ -26,29 +26,81 @@ const typeList = [
 
 interface FiltersProps {
   currentFilter: string;
-  setFilters: Dispatch<SetStateAction<string>>;
+  setFilter: Dispatch<SetStateAction<string>>;
 }
 
-export const Filters: FC<FiltersProps> = ({ currentFilter, setFilters }) => {
+export const Filters: FC<FiltersProps> = ({ currentFilter, setFilter }) => {
+  const handleReset = () => {
+    setFilter('');
+  };
+
   return (
     <Wrapper>
-      {typeList.map((type, i) => {
-        return (
+      <span
+        style={{
+          fontFamily: 'GameBoy',
+        }}>
+        Filters
+      </span>
+      <ChipBox>
+        {typeList.map((type, i) => {
+          return (
+            <Chip
+              key={i}
+              icon
+              color={`${theme.colors[type.name as ColorType]}`}
+              label={type.name}
+              isButton
+              onClick={() => setFilter(type.name)}
+            />
+          );
+        })}
+      </ChipBox>
+      {currentFilter.trim() !== '' && (
+        <FilterIdentifier>
+          <span>Selected filter : </span>
           <Chip
-            key={i}
+            label={currentFilter}
+            color={`${theme.colors[currentFilter as ColorType]}`}
             icon
-            color={`${theme.colors[type.name as ColorType]}`}
-            label={type.name}
-            isButton
-            onClick={() => console.log('submit')}
           />
-        );
-      })}
+          <ResetButton onClick={handleReset}>X</ResetButton>
+        </FilterIdentifier>
+      )}
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
   display: flex;
+  flex-direction: column;
+  margin: ${theme.spacing.lg}px ${theme.spacing.lg}px;
+`;
+
+const ChipBox = styled.div`
+  display: flex;
   flex-wrap: wrap;
+`;
+
+const FilterIdentifier = styled.div`
+  display: flex;
+  align-items: center;
+  margin: ${theme.spacing.xs}px;
+  & span {
+    font-family: 'GameBoy';
+  }
+`;
+
+const ResetButton = styled.button`
+  padding: ${theme.spacing.xs}px;
+  font-family: 'GameBoy';
+  border: none;
+  background-color: transparent;
+  color: red;
+  cursor: pointer;
+  transform: scale(1);
+  &:hover {
+    transition: 0.1s linear;
+    transform: scale(1.7);
+  }
 `;

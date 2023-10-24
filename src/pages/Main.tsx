@@ -13,7 +13,7 @@ export const Main: FC = () => {
     fetcher
   );
   const [pokemons, setPokemons] = useState<PokemonBase[]>();
-  const [filters, setFilters] = useState<string>('');
+  const [filter, setFilter] = useState<string>('');
 
   useEffect(() => {
     if (data) {
@@ -33,8 +33,8 @@ export const Main: FC = () => {
       <button onClick={() => setOffset(40)}>more</button>
       <FilterBox>
         <Filters
-          setFilters={setFilters}
-          currentFilter={filters}
+          setFilter={setFilter}
+          currentFilter={filter}
         />
       </FilterBox>
       <Container>
