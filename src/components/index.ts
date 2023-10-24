@@ -4,3 +4,4 @@ export * from './Filters';
 export * from './Footer';
 export * from './Header';
 export * from './Loading';
+export * from './GoBackButton';

@@ -1,10 +1,10 @@
 import { FC, useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import useSWR from 'swr';
 import styled from 'styled-components';
 import fetcher from '../utils/fetcher';
 import { PokemonByTypeProps } from '../type';
-import { Card, Loading } from '../components';
+import { Card, GoBackButton, Loading } from '../components';
 import { theme } from '../utils/theme';
 
 type ListByTypeParam = {
@@ -30,7 +30,7 @@ export const ListByType: FC = () => {
     <Wrapper>
       {isLoading && <Loading />}
       <GoBackContainer>
-        <Link to='/'>Go back</Link>
+        <GoBackButton />
       </GoBackContainer>
       <Container>
         <TitleBox>
@@ -65,7 +65,7 @@ const Wrapper = styled.div`
 
 const GoBackContainer = styled.div`
   width: 90%;
-  padding: ${theme.spacing.md}px;
+  margin: ${theme.spacing.sm}px ${theme.spacing.xl}px;
 `;
 
 const Container = styled.div`
@@ -76,7 +76,7 @@ const Container = styled.div`
 const TitleBox = styled.div`
   padding: ${theme.spacing.md}px;
   margin: ${theme.spacing.lg}px;
-  margin-top: ${theme.spacing.xs}px;
+  margin-top: 0;
   background-color: white;
   border-radius: ${theme.spacing.sm}px;
   box-shadow: 0px 6px 15px -4px ${theme.colors.dark};
@@ -86,6 +86,7 @@ const TitleBox = styled.div`
 
   & span {
     font-family: 'GameBoy';
+    font-size: ${theme.fonts.subTitle}px;
   }
 
   & img {
