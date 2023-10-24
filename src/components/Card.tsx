@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import useSWR from 'swr';
 import fetcher from '../utils/fetcher';
-import { Pokemon, PokemonBase, PokemonImageProps } from '../type';
+import { Pokemon, PokemonImageProps } from '../type';
 import styled from 'styled-components';
 import { ColorType, theme } from '../utils/theme';
 
@@ -13,7 +13,7 @@ export const Card: FC<CardProps> = ({ url }) => {
   const { isLoading, data } = useSWR<Pokemon>(url, fetcher);
   const [thumbnail, setThumbnail] =
     useState<PokemonImageProps['front_default']>();
-  const [type, setType] = useState<PokemonBase[]>();
+  const [type, setType] = useState<string[]>();
 
   useEffect(() => {
     if (
@@ -26,13 +26,7 @@ export const Card: FC<CardProps> = ({ url }) => {
       );
     }
     if (data?.types) {
-      console.log(data.types);
-      setType(
-        data.types.map((t) => ({
-          name: t.type.name,
-          url: t.type.url,
-        }))
-      );
+      setType(data.types.map((t) => t.type.name));
     }
   }, [data]);
 
@@ -61,10 +55,14 @@ export const Card: FC<CardProps> = ({ url }) => {
                   <TypeBox
                     key={i}
                     style={{
-                      backgroundColor: `${theme.colors[t.name as ColorType]}`,
+                      backgroundColor: `${theme.colors[t as ColorType]}`,
                     }}>
-                    <img src={t.url} />
-                    <span>{t.name.toUpperCase()}</span>
+                    <img
+                      src={`/icons/${t}.png`}
+                      width={theme.spacing.sm}
+                      height={theme.spacing.sm}
+                    />
+                    <span>{t.toUpperCase()}</span>
                   </TypeBox>
                 );
               })}
@@ -82,7 +80,7 @@ const Wrapper = styled.div`
   box-shadow: 0px 6px 15px -4px #000000;
   margin: ${theme.spacing.md}px;
   padding: ${theme.spacing.md}px;
-  width: 300px;
+  width: 350px;
 `;
 
 const Container = styled.div`
@@ -113,15 +111,24 @@ const Name = styled.span`
 
 const TypeBoxContainer = styled.div`
   display: flex;
+  margin-top: ${theme.spacing.sm}px;
 `;
 
 const TypeBox = styled.div`
   padding: ${theme.spacing.xs / 2}px ${theme.spacing.sm}px;
   border-radius: ${theme.spacing.sm}px;
   margin: ${theme.spacing.xs / 2}px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  & img {
+    margin: 0;
+    margin-right: ${theme.spacing.xs}px;
+  }
   & span {
-    font-family: 'Pretendard';
-    font-size: ${theme.fonts.desc}px;
+    font-family: 'GameBoy';
+    font-size: ${theme.fonts.caption + 2}px;
     color: white;
   }
 `;

@@ -1,5 +1,5 @@
 type DeviceType = 'mobile' | 'tablet' | 'desktop';
-type FontsType = 'title' | 'subTitle' | 'heading' | 'p' | 'desc';
+type FontsType = 'title' | 'subTitle' | 'heading' | 'p' | 'desc' | 'caption';
 type SpacingType = 'xl' | 'lg' | 'md' | 'sm' | 'xs';
 export type ColorType =
   | 'normal'
@@ -42,6 +42,7 @@ export const theme: ThemeProps = {
     heading: 24,
     p: 14,
     desc: 12,
+    caption: 8,
   },
   spacing: {
     xl: 60,
