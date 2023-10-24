@@ -1,4 +1,10 @@
-import { ChangeEvent, Dispatch, FC, SetStateAction } from 'react';
+import {
+  ChangeEvent,
+  Dispatch,
+  FC,
+  KeyboardEvent,
+  SetStateAction,
+} from 'react';
 import styled from 'styled-components';
 import { theme } from '../utils/theme';
 
@@ -13,6 +19,12 @@ export const SearchBar: FC<SearchBarProps> = ({ term, setTerm, onSearch }) => {
     setTerm(e.target.value);
   };
 
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.code === 'Enter') {
+      onSearch();
+    }
+  };
+
   return (
     <Wrapper>
       <Input
@@ -20,6 +32,7 @@ export const SearchBar: FC<SearchBarProps> = ({ term, setTerm, onSearch }) => {
         placeholder='Please enter a term to search pokemon'
         value={term}
         onChange={handleWrite}
+        onKeyDown={handleKeyDown}
       />
       <Button onClick={onSearch}>
         <img
