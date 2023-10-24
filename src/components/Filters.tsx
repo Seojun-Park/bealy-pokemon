@@ -1,7 +1,8 @@
-import { Dispatch, FC, SetStateAction } from 'react';
+import { FC } from 'react';
 import { Chip } from '.';
 import styled from 'styled-components';
 import { ColorType, theme } from '../utils/theme';
+import { useNavigate } from 'react-router-dom';
 
 const typeList = [
   { name: 'normal', url: '' },
@@ -24,15 +25,8 @@ const typeList = [
   { name: 'fairy', url: '' },
 ];
 
-interface FiltersProps {
-  currentFilter: string;
-  setFilter: Dispatch<SetStateAction<string>>;
-}
-
-export const Filters: FC<FiltersProps> = ({ currentFilter, setFilter }) => {
-  const handleReset = () => {
-    setFilter('');
-  };
+export const Filters: FC = () => {
+  const navigate = useNavigate();
 
   return (
     <Wrapper>
@@ -51,22 +45,11 @@ export const Filters: FC<FiltersProps> = ({ currentFilter, setFilter }) => {
               color={`${theme.colors[type.name as ColorType]}`}
               label={type.name}
               isButton
-              onClick={() => setFilter(type.name)}
+              onClick={() => navigate(`/pokemon/type/${type.name}`)}
             />
           );
         })}
       </ChipBox>
-      {currentFilter.trim() !== '' && (
-        <FilterIdentifier>
-          <span>Selected filter : </span>
-          <Chip
-            label={currentFilter}
-            color={`${theme.colors[currentFilter as ColorType]}`}
-            icon
-          />
-          <ResetButton onClick={handleReset}>X</ResetButton>
-        </FilterIdentifier>
-      )}
     </Wrapper>
   );
 };
@@ -80,27 +63,4 @@ const Wrapper = styled.div`
 const ChipBox = styled.div`
   display: flex;
   flex-wrap: wrap;
-`;
-
-const FilterIdentifier = styled.div`
-  display: flex;
-  align-items: center;
-  margin: ${theme.spacing.xs}px;
-  & span {
-    font-family: 'GameBoy';
-  }
-`;
-
-const ResetButton = styled.button`
-  padding: ${theme.spacing.xs}px;
-  font-family: 'GameBoy';
-  border: none;
-  background-color: transparent;
-  color: red;
-  cursor: pointer;
-  transform: scale(1);
-  &:hover {
-    transition: 0.1s linear;
-    transform: scale(1.7);
-  }
 `;

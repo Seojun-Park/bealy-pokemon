@@ -136,3 +136,44 @@ export interface PokemonSpeciesType {
     pokemon: PokemonBase;
   }[];
 }
+
+export interface PokemonByTypeProps {
+  id: number;
+  name: string;
+  damage_relations: {
+    no_damage_to: Array<PokemonBase>;
+    half_damage_to: Array<PokemonBase>;
+    double_damage_to: Array<PokemonBase>;
+    no_damage_from: Array<PokemonBase>;
+    half_damage_from: Array<PokemonBase>;
+    double_damage_from: Array<PokemonBase>;
+  };
+  past_damage_relations: Array<{
+    generation: PokemonBase;
+    damage_relations: {
+      no_damage_to: Array<PokemonBase>;
+      half_damage_to: Array<PokemonBase>;
+      double_damage_to: Array<PokemonBase>;
+      no_damage_from: Array<PokemonBase>;
+      half_damage_from: Array<PokemonBase>;
+      double_damage_from: Array<PokemonBase>;
+    };
+  }>;
+  game_indices: Array<{
+    game_index: 4;
+    generation: PokemonBase;
+  }>;
+  generation: PokemonBase;
+  move_damage_class: PokemonBase;
+  names: [
+    {
+      name: 'ã˜ã‚ã‚“';
+      language: PokemonBase;
+    }
+  ];
+  pokemon: Array<{
+    slot: 1;
+    pokemon: PokemonBase;
+  }>;
+  moves: Array<PokemonBase>;
+}

@@ -1,6 +1,6 @@
 import { Main } from './pages/Main';
 import { Layout } from './layouts/Layout';
-import { Detail } from './pages';
+import { Detail, ListByType } from './pages';
 
 export const routes = [
   {
@@ -8,7 +8,8 @@ export const routes = [
     element: <Layout />,
     children: [
       { path: '/', element: <Main /> },
-      { path: '/pokemon/:id', element: <Detail />  },
+      { path: '/pokemon/:id', element: <Detail /> },
+      { path: '/pokemon/type/:typeId', element: <ListByType /> },
     ],
   },
 ];
