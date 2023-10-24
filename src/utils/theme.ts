@@ -1,4 +1,36 @@
-export const theme = {
+type DeviceType = 'mobile' | 'tablet' | 'desktop';
+type FontsType = 'title' | 'subTitle' | 'heading' | 'p' | 'desc';
+type SpacingType = 'xl' | 'lg' | 'md' | 'sm' | 'xs';
+export type ColorType =
+  | 'normal'
+  | 'fighting'
+  | 'flying'
+  | 'poison'
+  | 'ground'
+  | 'rock'
+  | 'bug'
+  | 'ghost'
+  | 'steel'
+  | 'fire'
+  | 'water'
+  | 'grass'
+  | 'electric'
+  | 'psychic'
+  | 'ice'
+  | 'dragon'
+  | 'dark'
+  | 'fairy'
+  | 'unknown'
+  | 'shadow';
+
+interface ThemeProps {
+  device: Record<DeviceType, string>;
+  fonts: Record<FontsType, number>;
+  spacing: Record<SpacingType, number>;
+  colors: Record<ColorType, string>;
+}
+
+export const theme: ThemeProps = {
   device: {
     mobile: `(min-width: 320px)`,
     tablet: `(min-width: 768px)`,
@@ -9,6 +41,7 @@ export const theme = {
     subTitle: 30,
     heading: 24,
     p: 14,
+    desc: 12,
   },
   spacing: {
     xl: 60,

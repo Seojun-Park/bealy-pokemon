@@ -1,9 +1,9 @@
 import { FC, useEffect, useState } from 'react';
 import useSWR from 'swr';
 import fetcher from '../utils/fetcher';
-import { Pokemon, PokemonImageProps } from '../type';
+import { Pokemon, PokemonBase, PokemonImageProps } from '../type';
 import styled from 'styled-components';
-import { theme } from '../utils/theme';
+import { ColorType, theme } from '../utils/theme';
 
 interface CardProps {
   url: string;
@@ -13,6 +13,7 @@ export const Card: FC<CardProps> = ({ url }) => {
   const { isLoading, data } = useSWR<Pokemon>(url, fetcher);
   const [thumbnail, setThumbnail] =
     useState<PokemonImageProps['front_default']>();
+  const [type, setType] = useState<PokemonBase[]>();
 
   useEffect(() => {
     if (
@@ -22,6 +23,15 @@ export const Card: FC<CardProps> = ({ url }) => {
       setThumbnail(
         data.sprites.versions['generation-v']['black-white'].animated
           .front_default || data.sprites.front_default
+      );
+    }
+    if (data?.types) {
+      console.log(data.types);
+      setType(
+        data.types.map((t) => ({
+          name: t.type.name,
+          url: t.type.url,
+        }))
       );
     }
   }, [data]);
@@ -45,6 +55,20 @@ export const Card: FC<CardProps> = ({ url }) => {
               height={120}
             />
             <Name>{data?.name}</Name>
+            <TypeBoxContainer>
+              {type?.map((t, i) => {
+                return (
+                  <TypeBox
+                    key={i}
+                    style={{
+                      backgroundColor: `${theme.colors[t.name as ColorType]}`,
+                    }}>
+                    <img src={t.url} />
+                    <span>{t.name.toUpperCase()}</span>
+                  </TypeBox>
+                );
+              })}
+            </TypeBoxContainer>
           </Container>
         </>
       )}
@@ -59,7 +83,6 @@ const Wrapper = styled.div`
   margin: ${theme.spacing.md}px;
   padding: ${theme.spacing.md}px;
   width: 300px;
-
 `;
 
 const Container = styled.div`
@@ -86,4 +109,19 @@ const IdBox = styled.div`
 
 const Name = styled.span`
   font-family: 'GameBoy';
+`;
+
+const TypeBoxContainer = styled.div`
+  display: flex;
+`;
+
+const TypeBox = styled.div`
+  padding: ${theme.spacing.xs / 2}px ${theme.spacing.sm}px;
+  border-radius: ${theme.spacing.sm}px;
+  margin: ${theme.spacing.xs / 2}px;
+  & span {
+    font-family: 'Pretendard';
+    font-size: ${theme.fonts.desc}px;
+    color: white;
+  }
 `;
