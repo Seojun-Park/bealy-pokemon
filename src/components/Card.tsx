@@ -5,7 +5,7 @@ import useSWR from 'swr';
 import fetcher from '../utils/fetcher';
 import { Pokemon, PokemonImageProps } from '../type';
 import { ColorType, theme } from '../utils/theme';
-import { Chip } from '.';
+import { Chip, Loading } from '.';
 
 interface CardProps {
   url: string;
@@ -35,7 +35,7 @@ export const Card: FC<CardProps> = ({ url }) => {
   return (
     <Wrapper to={`/pokemon/${data?.id}`}>
       {isLoading ? (
-        <span>Loading... </span>
+        <Loading />
       ) : (
         <>
           <Container>

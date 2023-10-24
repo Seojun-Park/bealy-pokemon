@@ -1,4 +1,11 @@
-import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
+import {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import styled from 'styled-components';
 import { theme } from '../utils/theme';
 
@@ -17,9 +24,16 @@ export const Pagination: FC<PaginationProps> = ({
 }) => {
   const [pages, setPages] = useState<number[]>();
 
+  const handleCurrentPage = useCallback(() => {
+    setCurrentPage(Math.floor(totalPages) - 1);
+  }, [totalPages, setCurrentPage]);
+
   useEffect(() => {
     const startIndex = currentPage / 10;
-    if (startIndex % 10 === 0) {
+    if (currentPage > totalPages) {
+      handleCurrentPage();
+    }
+    if (startIndex % 10 === 0 && startIndex !== 0) {
       setPages(
         Array.from({ length: totalPages })
           .map((_, i) => i + 1)
@@ -29,7 +43,7 @@ export const Pagination: FC<PaginationProps> = ({
       setPages(
         Array.from({ length: totalPages })
           .map((_, i) => i + 1)
-          .slice(0, perPage)
+          .slice(0, 10)
       );
     } else {
       setPages(
@@ -41,34 +55,38 @@ export const Pagination: FC<PaginationProps> = ({
           )
       );
     }
-  }, [totalPages, currentPage, perPage]);
+  }, [totalPages, currentPage, perPage, handleCurrentPage]);
+
+  const handleGetEndPage = () => {
+    setCurrentPage(Math.floor(totalPages / perPage))
+  };
 
   return (
     <Wrapper>
       <Num onClick={() => setCurrentPage(0)}>First</Num>
       {pages?.map((num, i) => {
+        const current = i === currentPage;
+        console.log(current, num, i);
         return (
           <Num
             key={i}
             onClick={() => setCurrentPage(num - 1)}
-            color={
-              num === currentPage + 1 ? theme.colors.fire : theme.colors.dark
-            }>
+            color={current ? theme.colors.fire : theme.colors.dark}>
             {num}
           </Num>
         );
       })}
       <Num
-        onClick={() =>
-          setCurrentPage(
-            currentPage % 10 === 0 ? currentPage + 10 : currentPage + 1
-          )
-        }>
+        onClick={() => {
+          if (currentPage % 10 === 0 && currentPage > totalPages) {
+            setCurrentPage(
+              currentPage % 10 === 0 ? currentPage + 10 : currentPage + 1
+            );
+          }
+        }}>
         ...
       </Num>
-      <Num onClick={() => setCurrentPage(Math.floor(totalPages / perPage))}>
-        End
-      </Num>
+      <Num onClick={handleGetEndPage}>End</Num>
     </Wrapper>
   );
 };
@@ -82,7 +100,6 @@ const Num = styled.button<{ color?: string }>`
   cursor: pointer;
   padding: ${theme.spacing.xs}px;
   color: ${(props) => props.color};
-
   &:hover {
     color: ${theme.colors.fire};
     transition: 0.2s linear;

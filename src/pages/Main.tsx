@@ -32,7 +32,7 @@ export const Main: FC = () => {
 
   useEffect(() => {
     mutate();
-  }, [perPage, totalPages, mutate]);
+  }, [perPage, mutate]);
 
   useEffect(() => {
     if (data?.count) {
@@ -45,6 +45,7 @@ export const Main: FC = () => {
       window.alert('You should type any terms to search');
     }
   };
+
 
   return (
     <Wrapper>
