@@ -8,6 +8,15 @@ export default defineConfig({
     host: true,
     open: true,
     cors: false,
+    proxy: {
+      '/api': {
+        target: 'https://pokeapi.co/api/v2',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+        secure: false,
+        ws: true,
+      },
+    },
   },
   plugins: [react()],
 });
