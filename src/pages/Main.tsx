@@ -3,16 +3,26 @@ import useSWR from 'swr';
 import styled from 'styled-components';
 import fetcher from '../utils/fetcher';
 import { PokemonAll, PokemonBase } from '../type';
-import { Card, Filters } from '../components';
+import {
+  Card,
+  DropDown,
+  Filters,
+  Loading,
+  Pagination,
+  SearchBar,
+} from '../components';
 
 export const Main: FC = () => {
-  const [offSet, setOffset] = useState<number>(20);
-  const [pageIndex, setPageIndex] = useState<number>(0);
-  const { data, isLoading } = useSWR<PokemonAll>(
-    `/pokemon/?limit=${offSet}&offset=${pageIndex * offSet} - ${offSet}`,
+  const [perPage, setperPage] = useState<number>(10);
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(0);
+
+  const { data, isLoading, mutate } = useSWR<PokemonAll>(
+    `/pokemon/?limit=${perPage}&offset=${currentPage * perPage} - ${perPage}`,
     fetcher
   );
   const [pokemons, setPokemons] = useState<PokemonBase[]>();
+  const [term, setTerm] = useState<string>('');
 
   useEffect(() => {
     if (data) {
@@ -20,28 +30,67 @@ export const Main: FC = () => {
     }
   }, [data]);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  useEffect(() => {
+    mutate();
+  }, [perPage, totalPages, mutate]);
+
+  useEffect(() => {
+    if (data?.count) {
+      setTotalPages(data.count / perPage);
+    }
+  }, [data?.count, perPage]);
+
+  const handleSearch = () => {
+    if (term.trim() === '') {
+      window.alert('You should type any terms to search');
+    }
+  };
 
   return (
     <Wrapper>
-      <button onClick={() => setPageIndex(pageIndex - 1)}>Previous</button>
-      <button onClick={() => setPageIndex(pageIndex + 1)}>Next</button>
-
-      <button onClick={() => setOffset(40)}>more</button>
+      <SearchBox>
+        <SearchBar
+          term={term}
+          setTerm={setTerm}
+          onSearch={handleSearch}
+        />
+      </SearchBox>
       <FilterBox>
         <Filters />
       </FilterBox>
+      <PaginationBox>
+        <Pagination
+          totalPages={totalPages}
+          perPage={perPage}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+        <DropDown<number>
+          value={perPage}
+          setValue={setperPage}
+          options={[
+            { id: 10, name: '10' },
+            { id: 20, name: '20' },
+            { id: 50, name: '50' },
+            { id: 100, name: '100' },
+            { id: 200, name: '200' },
+            { id: 300, name: '300' },
+          ]}
+        />
+      </PaginationBox>
       <Container>
-        {pokemons?.map((p, i) => {
-          return (
-            <Card
-              key={i}
-              url={p.url}
-            />
-          );
-        })}
+        {isLoading || !pokemons ? (
+          <Loading />
+        ) : (
+          pokemons?.map((p, i) => {
+            return (
+              <Card
+                key={i}
+                url={p.url}
+              />
+            );
+          })
+        )}
       </Container>
     </Wrapper>
   );
@@ -49,11 +98,23 @@ export const Main: FC = () => {
 
 const Wrapper = styled.div``;
 
+const SearchBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const FilterBox = styled.div``;
 
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+`;
+
+const PaginationBox = styled.div`
+  display: flex;
   justify-content: center;
   align-items: center;
 `;

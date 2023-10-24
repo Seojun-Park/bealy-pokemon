@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { theme } from '../utils/theme';
 
 export const Loading = () => {
   const [dots, setDots] = useState<string>('.');
@@ -22,4 +23,13 @@ export const Loading = () => {
   );
 };
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: ${theme.spacing.xl}px;
+  height: 80vh;
+  span {
+    font-family: 'GameBoy';
+  }
+`;
