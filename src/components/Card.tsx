@@ -1,8 +1,9 @@
 import { FC, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import useSWR from 'swr';
 import fetcher from '../utils/fetcher';
 import { Pokemon, PokemonImageProps } from '../type';
-import styled from 'styled-components';
 import { ColorType, theme } from '../utils/theme';
 
 interface CardProps {
@@ -31,7 +32,7 @@ export const Card: FC<CardProps> = ({ url }) => {
   }, [data]);
 
   return (
-    <Wrapper>
+    <Wrapper to='#'>
       {isLoading ? (
         <span>Loading... </span>
       ) : (
@@ -74,13 +75,23 @@ export const Card: FC<CardProps> = ({ url }) => {
   );
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled(Link)`
   background-color: white;
   border-radius: ${theme.spacing.xs}px;
   box-shadow: 0px 6px 15px -4px #000000;
   margin: ${theme.spacing.md}px;
   padding: ${theme.spacing.md}px;
   width: 350px;
+  cursor: pointer;
+  transform: scale(1);
+  text-decoration: none;
+  color: ${theme.colors.dark};
+
+  &:hover {
+    opacity: 0.8;
+    transition: 0.1s linear;
+    transform: scale(1.04);
+  }
 `;
 
 const Container = styled.div`
