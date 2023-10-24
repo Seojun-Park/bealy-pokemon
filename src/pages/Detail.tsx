@@ -5,7 +5,7 @@ import fetcher from '../utils/fetcher';
 import { Pokemon, PokemonImageProps, PokemonSpeciesType } from '../type';
 import styled from 'styled-components';
 import { ColorType, theme } from '../utils/theme';
-import { Chip } from '../components';
+import { Chip, GoBackButton } from '../components';
 
 type DetailParamProps = {
   id: string;
@@ -66,6 +66,9 @@ export const Detail: FC = () => {
 
   return (
     <Wrapper>
+      <GoBackContainer>
+        <GoBackButton />
+      </GoBackContainer>
       <Thumbnail
         src={thumbnail || ''}
         width={theme.spacing.xl * 3}
@@ -141,6 +144,12 @@ const Wrapper = styled.div`
   flex-direction: column;
   padding: ${theme.spacing.lg}px 0;
 `;
+
+const GoBackContainer = styled.div`
+  width: 90%;
+  margin: ${theme.spacing.sm}px ${theme.spacing.xl}px;
+`;
+
 
 const Thumbnail = styled.img``;
 

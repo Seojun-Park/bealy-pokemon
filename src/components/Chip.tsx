@@ -7,14 +7,37 @@ interface ChipProps {
   label: string;
   icon?: boolean;
   fontColor?: string;
+  isButton?: boolean;
+  onClick?: () => void;
 }
 
 export const Chip: FC<ChipProps> = ({
   color = theme.colors.normal,
   icon,
   label,
+  isButton,
+  onClick,
 }) => {
   const iconUrl = `/icons/${label}.png`;
+
+  if (isButton) {
+    return (
+      <ButtonWrapper
+        style={{
+          backgroundColor: color,
+        }}
+        onClick={onClick}>
+        {icon && (
+          <img
+            src={iconUrl}
+            width={theme.spacing.sm}
+            height={theme.spacing.sm}
+          />
+        )}
+        <span>{label.toUpperCase()}</span>
+      </ButtonWrapper>
+    );
+  }
 
   return (
     <Wrapper
@@ -33,7 +56,7 @@ export const Chip: FC<ChipProps> = ({
   );
 };
 
-export const Wrapper = styled.div`
+const Wrapper = styled.div`
   border-radius: ${theme.spacing.sm}px;
   padding: ${theme.spacing.xs / 2}px ${theme.spacing.sm}px;
   margin: ${theme.spacing.xs / 2}px;
@@ -48,5 +71,29 @@ export const Wrapper = styled.div`
     font-family: 'GameBoy';
     font-size: ${theme.fonts.caption + 2}px;
     color: white;
+  }
+`;
+
+const ButtonWrapper = styled.button`
+  border-radius: ${theme.spacing.sm}px;
+  padding: ${theme.spacing.xs / 2}px ${theme.spacing.sm}px;
+  margin: ${theme.spacing.xs / 2}px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  cursor: pointer;
+  border: none;
+  & img {
+    margin: 0;
+    margin-right: ${theme.spacing.xs}px;
+  }
+  & span {
+    font-family: 'GameBoy';
+    font-size: ${theme.fonts.caption + 2}px;
+    color: white;
+  }
+  &:hover {
+    opacity: 0.6;
+    transition: 0.2s linear;
   }
 `;
