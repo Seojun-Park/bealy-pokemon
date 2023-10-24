@@ -5,6 +5,7 @@ import useSWR from 'swr';
 import fetcher from '../utils/fetcher';
 import { Pokemon, PokemonImageProps } from '../type';
 import { ColorType, theme } from '../utils/theme';
+import { Chip } from '.';
 
 interface CardProps {
   url: string;
@@ -32,7 +33,7 @@ export const Card: FC<CardProps> = ({ url }) => {
   }, [data]);
 
   return (
-    <Wrapper to='#'>
+    <Wrapper to={`/pokemon/${data?.id}`}>
       {isLoading ? (
         <span>Loading... </span>
       ) : (
@@ -53,18 +54,11 @@ export const Card: FC<CardProps> = ({ url }) => {
             <TypeBoxContainer>
               {type?.map((t, i) => {
                 return (
-                  <TypeBox
+                  <Chip
                     key={i}
-                    style={{
-                      backgroundColor: `${theme.colors[t as ColorType]}`,
-                    }}>
-                    <img
-                      src={`/icons/${t}.png`}
-                      width={theme.spacing.sm}
-                      height={theme.spacing.sm}
-                    />
-                    <span>{t.toUpperCase()}</span>
-                  </TypeBox>
+                    color={`${theme.colors[t as ColorType]}`}
+                    label={t}
+                  />
                 );
               })}
             </TypeBoxContainer>
@@ -123,23 +117,4 @@ const Name = styled.span`
 const TypeBoxContainer = styled.div`
   display: flex;
   margin-top: ${theme.spacing.sm}px;
-`;
-
-const TypeBox = styled.div`
-  padding: ${theme.spacing.xs / 2}px ${theme.spacing.sm}px;
-  border-radius: ${theme.spacing.sm}px;
-  margin: ${theme.spacing.xs / 2}px;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-
-  & img {
-    margin: 0;
-    margin-right: ${theme.spacing.xs}px;
-  }
-  & span {
-    font-family: 'GameBoy';
-    font-size: ${theme.fonts.caption + 2}px;
-    color: white;
-  }
 `;

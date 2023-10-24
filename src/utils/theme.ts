@@ -21,7 +21,8 @@ export type ColorType =
   | 'dark'
   | 'fairy'
   | 'unknown'
-  | 'shadow';
+  | 'shadow'
+  | 'caption';
 
 interface ThemeProps {
   device: Record<DeviceType, string>;
@@ -72,5 +73,6 @@ export const theme: ThemeProps = {
     fairy: '#DAB4D4',
     unknown: '#d5ec6d',
     shadow: '#4b4f71',
+    caption: '#99b9b2',
   },
 };
