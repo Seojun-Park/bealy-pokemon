@@ -1,8 +1,8 @@
 import { FC, useEffect, useState } from 'react';
 import useSWR from 'swr';
-import fetcher from '../../utils/fetcher';
-import { PokemonAll, PokemonBase } from '../../type';
-import { Card } from '../../components';
+import fetcher from '../utils/fetcher';
+import { PokemonAll, PokemonBase } from '../type';
+import { Card } from '../components';
 import styled from 'styled-components';
 
 export const Main: FC = () => {

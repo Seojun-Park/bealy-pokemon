@@ -88,3 +88,51 @@ export interface Pokemon {
     type: PokemonBase;
   }>;
 }
+
+export interface PokemonSpeciesType {
+  id: number;
+  name: string;
+  order: number;
+  gender_rate: number;
+  capture_rate: number;
+  base_happiness: number;
+  is_baby: boolean;
+  is_legendary: boolean;
+  is_mythical: boolean;
+  hatch_counter: number;
+  has_gender_differences: boolean;
+  forms_switchable: false;
+  habitat: PokemonBase;
+  growth_rate: PokemonBase;
+  pokedex_numbers: {
+    entry_number: number;
+    pokedex: PokemonBase;
+  }[];
+  egg_groups: PokemonBase[];
+  color: PokemonBase;
+  shape: PokemonBase;
+  evolves_from_species: PokemonBase;
+  evolution_chain: PokemonBase['url'];
+  generation: PokemonBase;
+  names: {
+    name: string;
+    language: PokemonBase;
+  }[];
+  flavor_text_entries: {
+    flavor_text: string;
+    language: PokemonBase;
+    version: PokemonBase;
+  }[];
+  form_descriptions: {
+    description: string;
+    language: PokemonBase;
+  }[];
+  genera: {
+    genus: string;
+    language: PokemonBase;
+  }[];
+  varieties: {
+    is_default: boolean;
+    pokemon: PokemonBase;
+  }[];
+}
