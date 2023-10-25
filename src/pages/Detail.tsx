@@ -380,23 +380,50 @@ const ImageContainer = styled.div`
 const ImagesByVersionContainer = styled.div`
   display: flex;
   flex-direction: column;
-  & .imageContainer {
-    display: flex;
-    flex-direction: row;
-    margin-top: ${theme.spacing.sm}px;
+
+  @media screen and (${theme.device.mobile}) {
+    max-width: ${theme.breakpoints.mobile}px;
+    margin-bottom: ${theme.spacing.lg}px;
+    & .imageContainer {
+      display: flex;
+      flex-direction: column;
+      margin-top: ${theme.spacing.sm}px;
+    }
+
+    & .imageContainer .imageBox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-width: 200px;
+      padding: ${theme.spacing.sm}px;
+
+      span {
+        font-family: 'GameBoy';
+        margin-top: ${theme.spacing.sm}px;
+      }
+    }
   }
 
-  & .imageContainer .imageBox {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    min-width: 200px;
-    padding: ${theme.spacing.sm}px;
-
-    span {
-      font-family: 'GameBoy';
+  @media screen and (${theme.device.desktop}) {
+    & .imageContainer {
+      display: flex;
+      flex-direction: row;
       margin-top: ${theme.spacing.sm}px;
+    }
+
+    & .imageContainer .imageBox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-width: 200px;
+      padding: ${theme.spacing.sm}px;
+
+      span {
+        font-family: 'GameBoy';
+        margin-top: ${theme.spacing.sm}px;
+      }
     }
   }
 `;

@@ -50,7 +50,6 @@ export const Pagination: FC<PaginationProps> = ({
     <Wrapper>
       <Num onClick={() => setCurrentPage(0)}>First</Num>
       {pages?.map((num, i) => {
-        console.log(currentPage, num);
         return (
           <Num
             key={i}
