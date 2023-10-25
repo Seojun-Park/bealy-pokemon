@@ -6,7 +6,7 @@ import GlobalStyle from './utils/GlobalStyle.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename='/bealy-pokemon/'>
       <GlobalStyle />
       <App />
     </BrowserRouter>

@@ -15,7 +15,7 @@ export const Favorite: FC = () => {
       <Container>
         <TitleBox>
           <img
-            src={'/icons/ball.webp'}
+            src={'/bealy-pokemon/icons/ball.webp'}
             width={theme.spacing.md}
             height={theme.spacing.md}
           />

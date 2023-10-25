@@ -19,7 +19,7 @@ export const ListByType: FC = () => {
     `/type/${params.typeId}`,
     fetcher
   );
-  const iconUrl = `/icons/${params.typeId}.png`;
+  const iconUrl = `/bealy-pokemon/icons/${params.typeId}.png`;
   const [pokemon, setPokemon] = useState<PokemonByTypeProps['pokemon']>();
 
   useEffect(() => {

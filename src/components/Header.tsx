@@ -13,7 +13,7 @@ export const Header: FC = () => {
       </Link>
       <ButtonBox to='/pokemon/favorite'>
         <img
-          src={'/icons/ball.webp'}
+          src={'/bealy-pokemon/icons/ball.webp'}
           width={30}
           height={30}
         />

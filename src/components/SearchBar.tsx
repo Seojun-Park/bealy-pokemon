@@ -36,7 +36,7 @@ export const SearchBar: FC<SearchBarProps> = ({ term, setTerm, onSearch }) => {
       />
       <Button onClick={onSearch}>
         <img
-          src={'/icons/loupe.png'}
+          src={'/bealy-pokemon/icons/loupe.png'}
           width={30}
           height={30}
         />
