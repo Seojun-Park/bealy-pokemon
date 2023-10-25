@@ -18,7 +18,7 @@ export const Chip: FC<ChipProps> = ({
   isButton,
   onClick,
 }) => {
-  const iconUrl = `/icons/${label}.png`;
+  const iconUrl = `/bealy-pokemon/icons/${label}.png`;
 
   if (isButton) {
     return (

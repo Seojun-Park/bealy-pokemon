@@ -79,7 +79,7 @@ export const Card: FC<CardProps> = ({ url, isLiked }) => {
                     style={{
                       margin: 0,
                     }}
-                    src={`/icons/${isLiked ? 'heart-full' : 'heart-empty'}.png`}
+                    src={`/bealy-pokemon/icons/${isLiked ? 'heart-full' : 'heart-empty'}.png`}
                     width={20}
                     height={20}
                   />

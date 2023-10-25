@@ -8,7 +8,7 @@ export const GoBackButton: FC = () => {
   return (
     <Wrapper onClick={() => navigate(-1)}>
       <img
-        src={'/icons/arrow.png'}
+        src={'/bealy-pokemon/icons/arrow.png'}
         width={theme.spacing.sm}
         height={theme.spacing.sm}
       />
