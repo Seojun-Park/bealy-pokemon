@@ -2,6 +2,9 @@
 
 This web app is presenting most pokemon information throughout the entire version of Pokemon game.
 
+This project is deployed on https://seojun-park.github.io/bealy-pokemon/
+
+
 ## Installation
 
 ### Running build
