@@ -1,11 +1,18 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import useSWR from 'swr';
-import fetcher from '../utils/fetcher';
-import { Pokemon, PokemonImageProps, PokemonSpeciesType } from '../type';
 import styled from 'styled-components';
+import fetcher from '../utils/fetcher';
+import {
+  EvolvesToProps,
+  Pokemon,
+  PokemonBase,
+  PokemonImageProps,
+  PokemonSpeciesType,
+} from '../type';
 import { ColorType, theme } from '../utils/theme';
 import { Chip, GoBackButton } from '../components';
+import axios from 'axios';
 
 type DetailParamProps = {
   id: string;
@@ -33,6 +40,8 @@ export const Detail: FC = () => {
     useState<PokemonImageProps['front_default']>();
   const [type, setType] = useState<string[]>();
   const [description, setDescription] = useState<string[]>();
+  const [evolution, setEvolution] = useState<PokemonBase[]>([]);
+  const [evolutionChainUrl, setEvolutionChainUrl] = useState<string>();
 
   useEffect(() => {
     if (
@@ -48,6 +57,69 @@ export const Detail: FC = () => {
       setType(data.types.map((t) => t.type.name));
     }
   }, [data]);
+
+  useEffect(() => {
+    if (speciesData) {
+      // @ts-expect-error no type for url
+      setEvolutionChainUrl(speciesData.evolution_chain?.url);
+    }
+  }, [speciesData]);
+
+  const handleEvolutionChain = useCallback(
+    (children: Array<EvolvesToProps>, arr: PokemonBase[]) => {
+      children.forEach((c) => {
+        arr.push(c.species);
+        if (c.evolves_to.length > 0) {
+          handleEvolutionChain(c.evolves_to, arr);
+        }
+      });
+    },
+    []
+  );
+
+  useEffect(() => {
+    if (evolutionChainUrl) {
+      Promise.resolve(
+        axios.get(evolutionChainUrl).then((response) => {
+          return response.data;
+        })
+      ).then((result) => {
+        const evolutionChain: PokemonBase[] = [result.chain.species];
+        handleEvolutionChain(result.chain.evolves_to, evolutionChain);
+
+        Promise.all(
+          evolutionChain.map((e) => {
+            return axios
+              .get(`https://pokeapi.co/api/v2/pokemon/${e.name}`)
+              .then((response) => {
+                return response.data;
+              });
+          })
+        ).then((result: Pokemon[]) => {
+          setEvolution(
+            result?.map((r) => {
+              if (
+                r.sprites.versions['generation-v'] &&
+                r?.sprites.versions['generation-v']['black-white']
+              ) {
+                return {
+                  name: r.name,
+                  url:
+                    r.sprites.versions['generation-v']['black-white'].animated
+                      .front_default || r.sprites.front_default,
+                };
+              } else {
+                return {
+                  name: r.name,
+                  url: r.sprites.front_default,
+                };
+              }
+            })
+          );
+        });
+      });
+    }
+  }, [evolutionChainUrl, handleEvolutionChain]);
 
   useEffect(() => {
     if (speciesData) {
@@ -132,6 +204,27 @@ export const Detail: FC = () => {
             }
           })}
         </ImageBox>
+        <ImagesByVersionContainer>
+          <Chip label='Pokemon Evolution Chain' />
+          <div className='imageContainer'>
+            {evolution.map((e, i) => {
+              return (
+                <ImageContainer
+                  key={i}
+                  className='imageBox'>
+                  <img
+                    src={e.url}
+                    width={80}
+                    height={80}
+                  />
+                  <span>
+                    {i + 1}.{e.name}
+                  </span>
+                </ImageContainer>
+              );
+            })}
+          </div>
+        </ImagesByVersionContainer>
       </Content>
     </Wrapper>
   );
@@ -281,5 +374,29 @@ const ImageContainer = styled.div`
   @media screen and (${theme.device.desktop}) {
     padding: ${theme.spacing.xs / 2}px;
     margin: 0 ${theme.spacing.sm}px;
+  }
+`;
+
+const ImagesByVersionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  & .imageContainer {
+    display: flex;
+    flex-direction: row;
+    margin-top: ${theme.spacing.sm}px;
+  }
+
+  & .imageContainer .imageBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-width: 200px;
+    padding: ${theme.spacing.sm}px;
+
+    span {
+      font-family: 'GameBoy';
+      margin-top: ${theme.spacing.sm}px;
+    }
   }
 `;

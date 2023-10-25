@@ -177,3 +177,22 @@ export interface PokemonByTypeProps {
   }>;
   moves: Array<PokemonBase>;
 }
+
+export interface EvolvesToProps {
+  evolution_details: {
+    trigger: PokemonBase;
+    turn_upside_down: boolean;
+  }[];
+  evolves_to: Array<EvolvesToProps>;
+  is_baby: boolean;
+  species: PokemonBase;
+}
+
+export interface PokemonEvolution {
+  chain: {
+    evolution_details: [];
+    evolves_to: Array<EvolvesToProps>;
+    is_baby: boolean;
+    species: PokemonBase;
+  };
+}
