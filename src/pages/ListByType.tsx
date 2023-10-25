@@ -6,6 +6,7 @@ import fetcher from '../utils/fetcher';
 import { PokemonByTypeProps } from '../type';
 import { Card, GoBackButton, Loading } from '../components';
 import { theme } from '../utils/theme';
+import { useFavoriteContext } from '../contexts';
 
 type ListByTypeParam = {
   typeId: string;
@@ -13,6 +14,7 @@ type ListByTypeParam = {
 
 export const ListByType: FC = () => {
   const params = useParams<ListByTypeParam>();
+  const { favorites } = useFavoriteContext();
   const { data, isLoading } = useSWR<PokemonByTypeProps>(
     `/type/${params.typeId}`,
     fetcher
@@ -43,9 +45,11 @@ export const ListByType: FC = () => {
         </TitleBox>
         <Grid>
           {pokemon?.map((p, i) => {
+            const isLiked = favorites.find((v) => v.name === p.pokemon.name);
             return (
               <Card
                 key={i}
+                isLiked={isLiked ? true : false}
                 url={p.pokemon.url}
               />
             );
