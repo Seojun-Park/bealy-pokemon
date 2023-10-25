@@ -18,27 +18,30 @@ export const Pagination: FC<PaginationProps> = ({
   const [pages, setPages] = useState<number[]>();
 
   useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(Math.floor(totalPages));
+    }
+  }, [currentPage, totalPages, setCurrentPage]);
+
+  useEffect(() => {
     const startIndex = currentPage / 10;
-    if (startIndex % 10 === 0) {
+    if (startIndex % 10 === 0 && startIndex !== 0) {
       setPages(
         Array.from({ length: totalPages })
           .map((_, i) => i + 1)
-          .slice(currentPage * perPage, currentPage * perPage + perPage)
+          .slice(currentPage * 10, currentPage * 20)
       );
     } else if (startIndex < 1) {
       setPages(
         Array.from({ length: totalPages })
           .map((_, i) => i + 1)
-          .slice(0, perPage)
+          .slice(0, 10)
       );
     } else {
       setPages(
         Array.from({ length: totalPages })
           .map((_, i) => i + 1)
-          .slice(
-            Math.floor(startIndex) * 10,
-            Math.floor(startIndex) * perPage + perPage
-          )
+          .slice(Math.floor(startIndex) * 10, Math.floor(startIndex) * 10 + 10)
       );
     }
   }, [totalPages, currentPage, perPage]);
@@ -47,6 +50,7 @@ export const Pagination: FC<PaginationProps> = ({
     <Wrapper>
       <Num onClick={() => setCurrentPage(0)}>First</Num>
       {pages?.map((num, i) => {
+        console.log(currentPage, num);
         return (
           <Num
             key={i}
@@ -58,14 +62,16 @@ export const Pagination: FC<PaginationProps> = ({
           </Num>
         );
       })}
-      <Num
-        onClick={() =>
-          setCurrentPage(
-            currentPage % 10 === 0 ? currentPage + 10 : currentPage + 1
-          )
-        }>
-        ...
-      </Num>
+      {currentPage < Math.floor(totalPages) - 1 && (
+        <Num
+          onClick={() =>
+            setCurrentPage(
+              currentPage % 10 === 0 ? currentPage + 10 : currentPage + 1
+            )
+          }>
+          ...
+        </Num>
+      )}
       <Num onClick={() => setCurrentPage(Math.floor(totalPages / perPage))}>
         End
       </Num>
