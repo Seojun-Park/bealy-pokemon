@@ -49,12 +49,17 @@ const Wrapper = styled.div`
   background-color: white;
   padding: ${theme.spacing.xs}px ${theme.spacing.sm}px;
   border-radius: ${theme.spacing.xs}px;
-  margin-top: ${theme.spacing.xl}px;
   box-shadow: 0px 6px 15px -4px #eeeeee;
+  @media screen and (${theme.device.mobile}) {
+    margin-top: ${theme.spacing.sm}px;
+  }
+
+  @media screen and (${theme.device.desktop}) {
+    margin-top: ${theme.spacing.xl}px;
+  }
 `;
 
 const Input = styled.input`
-  min-width: 500px;
   border: none;
   margin-right: ${theme.spacing.xs}px;
   font-size: ${theme.fonts.title / 2}px;
@@ -65,6 +70,14 @@ const Input = styled.input`
     opacity: 0.4;
     padding: 0 ${theme.spacing.xs}px;
     font-size: ${theme.fonts.title / 2}px;
+  }
+
+  @media screen and (${theme.device.mobile}) {
+    min-width: 250px;
+  }
+
+  @media screen and (${theme.device.desktop}) {
+    min-width: 500px;
   }
 `;
 

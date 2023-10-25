@@ -1,4 +1,4 @@
-type DeviceType = 'mobile' | 'tablet' | 'desktop';
+type DeviceType = 'mobile' | 'desktop';
 type FontsType = 'title' | 'subTitle' | 'heading' | 'p' | 'desc' | 'caption';
 type SpacingType = 'xl' | 'lg' | 'md' | 'sm' | 'xs';
 export type ColorType =
@@ -25,6 +25,7 @@ export type ColorType =
   | 'caption';
 
 interface ThemeProps {
+  breakpoints: Record<DeviceType, number>;
   device: Record<DeviceType, string>;
   fonts: Record<FontsType, number>;
   spacing: Record<SpacingType, number>;
@@ -32,9 +33,12 @@ interface ThemeProps {
 }
 
 export const theme: ThemeProps = {
+  breakpoints: {
+    mobile: 320,
+    desktop: 768,
+  },
   device: {
     mobile: `(min-width: 320px)`,
-    tablet: `(min-width: 768px)`,
     desktop: `(min-width: 1280px)`,
   },
   fonts: {

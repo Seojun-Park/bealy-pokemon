@@ -73,7 +73,15 @@ export const Pagination: FC<PaginationProps> = ({
   );
 };
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  @media screen and (${theme.device.mobile}) {
+    margin: ${theme.spacing.sm}px;
+    margin-bottom: ${theme.spacing.md}px;
+  }
+
+  @media screen and (${theme.device.desktop}) {
+  }
+`;
 
 const Num = styled.button<{ color?: string }>`
   font-family: 'GameBoy';

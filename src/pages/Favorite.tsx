@@ -42,7 +42,12 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding: ${theme.spacing.lg}px 0;
+  @media screen and (${theme.device.mobile}) {
+  }
+
+  @media screen and (${theme.device.desktop}) {
+    padding: ${theme.spacing.lg}px 0;
+  }
 `;
 
 const GoBackContainer = styled.div`
@@ -51,13 +56,17 @@ const GoBackContainer = styled.div`
 `;
 
 const Container = styled.div`
-  max-width: 90%;
   margin: 0 auto;
+  @media screen and (${theme.device.mobile}) {
+    width: 100%;
+  }
+
+  @media screen and (${theme.device.desktop}) {
+    max-width: 90%;
+  }
 `;
 
 const TitleBox = styled.div`
-  padding: ${theme.spacing.md}px;
-  margin: ${theme.spacing.lg}px;
   margin-top: 0;
   background-color: white;
   border-radius: ${theme.spacing.sm}px;
@@ -73,6 +82,22 @@ const TitleBox = styled.div`
 
   & img {
     margin-right: ${theme.spacing.md}px;
+  }
+
+  @media screen and (${theme.device.mobile}) {
+    margin: ${theme.spacing.sm}px;
+    padding: ${theme.spacing.sm}px;
+    & span {
+      font-size: ${theme.fonts.heading}px;
+    }
+  }
+
+  @media screen and (${theme.device.desktop}) {
+    margin: ${theme.spacing.lg}px;
+    padding: ${theme.spacing.md}px;
+    & span {
+      font-size: ${theme.fonts.subTitle}px;
+    }
   }
 `;
 
