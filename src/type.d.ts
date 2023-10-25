@@ -167,7 +167,7 @@ export interface PokemonByTypeProps {
   move_damage_class: PokemonBase;
   names: [
     {
-      name: 'ã˜ã‚ã‚“';
+      name: string;
       language: PokemonBase;
     }
   ];
