@@ -1,9 +1,11 @@
 import { FC } from 'react';
+import { Link as BaseLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { theme } from '../utils/theme';
-import { Link as BaseLink } from 'react-router-dom';
+import { useMediaQuery } from '../hooks';
 
 export const Header: FC = () => {
+  const isDesktop = useMediaQuery(theme.device.desktop);
   return (
     <Wrapper>
       <Link to='/'>
@@ -15,7 +17,7 @@ export const Header: FC = () => {
           width={30}
           height={30}
         />
-        <span>My pokemons</span>
+        {isDesktop && <span>My pokemons</span>}
       </ButtonBox>
     </Wrapper>
   );
@@ -34,10 +36,18 @@ const Link = styled(BaseLink)`
 `;
 
 const Title = styled.span`
-  font-size: ${theme.fonts.title}px;
   font-family: 'Tenada';
-  margin-left: ${theme.spacing.lg}px;
   color: ${theme.colors.normal};
+
+  @media screen and (${theme.device.mobile}) {
+    margin-left: ${theme.spacing.xs}px;
+    font-size: ${theme.fonts.heading}px;
+  }
+
+  @media screen and (${theme.device.desktop}) {
+    margin-left: ${theme.spacing.lg}px;
+    font-size: ${theme.fonts.title}px;
+  }
 `;
 
 const ButtonBox = styled(Link)`
@@ -47,19 +57,31 @@ const ButtonBox = styled(Link)`
   flex-direction: column;
   align-items: center;
   cursor: pointer;
-  margin: 0 ${theme.spacing.lg}px;
   transform: scale(1);
-
-  img {
-    margin: ${theme.spacing.xs}px 0;
-    &:hover {
-      transform: scale(1.5);
-      transition: 0.2s linear;
-    }
-  }
 
   span {
     font-family: 'GameBoy';
-    font-size: ${theme.fonts.caption}px;
+  }
+
+  @media screen and (${theme.device.mobile}) {
+    margin: 0 ${theme.spacing.xs}px;
+
+    span {
+      font-size: ${theme.fonts.caption}px;
+    }
+  }
+
+  @media screen and (${theme.device.desktop}) {
+    margin: 0 ${theme.spacing.lg}px;
+    img {
+      margin: ${theme.spacing.xs}px 0;
+      &:hover {
+        transform: scale(1.5);
+        transition: 0.2s linear;
+      }
+    }
+    span {
+      font-size: ${theme.fonts.caption}px;
+    }
   }
 `;

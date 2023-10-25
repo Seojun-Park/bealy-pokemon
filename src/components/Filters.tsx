@@ -57,7 +57,14 @@ export const Filters: FC = () => {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin: ${theme.spacing.lg}px ${theme.spacing.lg}px;
+
+  @media screen and (${theme.device.mobile}) {
+    margin: ${theme.spacing.lg}px ${theme.spacing.sm}px;
+  }
+
+  @media screen and (${theme.device.desktop}) {
+    margin: ${theme.spacing.lg}px;
+  }
 `;
 
 const ChipBox = styled.div`

@@ -58,8 +58,6 @@ export const Chip: FC<ChipProps> = ({
 
 const Wrapper = styled.div`
   border-radius: ${theme.spacing.sm}px;
-  padding: ${theme.spacing.xs / 2}px ${theme.spacing.sm}px;
-  margin: ${theme.spacing.xs / 2}px;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -69,8 +67,22 @@ const Wrapper = styled.div`
   }
   & span {
     font-family: 'GameBoy';
-    font-size: ${theme.fonts.caption + 2}px;
     color: white;
+  }
+
+  @media screen and (${theme.device.mobile}) {
+    padding: ${theme.spacing.xs / 2}px ${theme.spacing.xs}px;
+    & span {
+      font-size: ${theme.fonts.caption}px;
+    }
+  }
+
+  @media screen and (${theme.device.desktop}) {
+    padding: ${theme.spacing.xs / 2}px ${theme.spacing.sm}px;
+    margin: ${theme.spacing.xs / 2}px;
+    & span {
+      font-size: ${theme.fonts.caption + 2}px;
+    }
   }
 `;
 

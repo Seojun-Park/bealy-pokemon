@@ -107,15 +107,15 @@ export const Detail: FC = () => {
         <Measurement>
           <MeasurementCol>
             <Chip label='Weight' />
-            <span>{data?.weight} kg</span>
+            <span className='desc'>{data?.weight} kg</span>
           </MeasurementCol>
           <MeasurementCol>
             <Chip label='Height' />
-            <span>0.{data?.height} m</span>
+            <span className='desc'>0.{data?.height} m</span>
           </MeasurementCol>
           <MeasurementCol>
             <Chip label='Habitat' />
-            <span>{speciesData?.habitat.name}</span>
+            <span className='desc'>{speciesData?.habitat.name}</span>
           </MeasurementCol>
         </Measurement>
         <ImageBox>
@@ -142,14 +142,18 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding: ${theme.spacing.lg}px 0;
+  @media screen and (${theme.device.mobile}) {
+  }
+
+  @media screen and (${theme.device.desktop}) {
+    padding: ${theme.spacing.lg}px 0;
+  }
 `;
 
 const GoBackContainer = styled.div`
   width: 90%;
   margin: ${theme.spacing.sm}px ${theme.spacing.xl}px;
 `;
-
 
 const Thumbnail = styled.img``;
 
@@ -172,7 +176,12 @@ const Name = styled.span`
 
 const TypeBoxContainer = styled.div`
   display: flex;
-  margin: ${theme.spacing.sm}px 0;
+  @media screen and (${theme.device.mobile}) {
+  }
+
+  @media screen and (${theme.device.desktop}) {
+    margin: ${theme.spacing.sm}px 0;
+  }
 `;
 
 const Content = styled.div`
@@ -181,6 +190,13 @@ const Content = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  @media screen and (${theme.device.mobile}) {
+    margin: 0 ${theme.spacing.xs}px;
+  }
+
+  @media screen and (${theme.device.desktop}) {
+  }
 `;
 
 const Measurement = styled.div`
@@ -188,6 +204,14 @@ const Measurement = styled.div`
   justify-content: center;
   align-items: center;
   margin: ${theme.spacing.lg}px 0;
+
+  @media screen and (${theme.device.mobile}) {
+    /* flex-direction: column; */
+    max-width: ${theme.breakpoints.mobile}px;
+  }
+
+  @media screen and (${theme.device.desktop}) {
+  }
 `;
 
 const MeasurementCol = styled.div`
@@ -195,27 +219,67 @@ const MeasurementCol = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 0 ${theme.spacing.sm}px;
   & span {
     font-family: 'GameBoy';
-    font-size: ${theme.fonts.p};
+  }
+
+  @media screen and (${theme.device.mobile}) {
+    margin: 0 ${theme.spacing.xs}px;
+    & .desc {
+      margin-top: ${theme.spacing.xs}px;
+      font-size: ${theme.fonts.desc}px;
+    }
+  }
+
+  @media screen and (${theme.device.desktop}) {
+    margin: 0 ${theme.spacing.sm}px;
+    & span {
+      font-size: ${theme.fonts.p}px;
+    }
   }
 `;
 
 const DescriptionRow = styled.div`
-  margin: ${theme.spacing.xs}px 0;
   display: flex;
   align-items: center;
+
+  @media screen and (${theme.device.mobile}) {
+    margin: ${theme.spacing.xs}px 0;
+    span {
+      max-width: ${theme.breakpoints.mobile}px;
+      word-wrap: break-word;
+    }
+  }
+
+  @media screen and (${theme.device.desktop}) {
+    margin: ${theme.spacing.xs}px 0;
+  }
 `;
 
 const ImageBox = styled.div`
   display: flex;
-  margin: ${theme.spacing.md}px;
+  @media screen and (${theme.device.mobile}) {
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: ${theme.spacing.xs}px;
+  }
+
+  @media screen and (${theme.device.desktop}) {
+    margin: ${theme.spacing.md}px;
+  }
 `;
 
 const ImageContainer = styled.div`
-  padding: ${theme.spacing.xs / 2}px;
-  margin: 0 ${theme.spacing.sm}px;
   box-shadow: 0px 6px 15px -4px ${theme.colors.dark};
   border-radius: ${theme.spacing.xs}px;
+  @media screen and (${theme.device.mobile}) {
+    padding: ${theme.spacing.xs}px;
+    margin: ${theme.spacing.xs}px;
+  }
+
+  @media screen and (${theme.device.desktop}) {
+    padding: ${theme.spacing.xs / 2}px;
+    margin: 0 ${theme.spacing.sm}px;
+  }
 `;

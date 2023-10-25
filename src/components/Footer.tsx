@@ -15,10 +15,17 @@ export const Footer: FC = () => {
 
 const Wrapper = styled.div`
   background-color: ${theme.colors.dark};
-  height: 150px;
   display: flex;
   justify-content: center;
   align-items: center;
+  
+  @media screen and (${theme.device.mobile}) {
+    height: 120px;
+  }
+  
+  @media screen and (${theme.device.desktop}) {
+    height: 150px;
+  }
 `;
 
 const Container = styled.div`
@@ -28,7 +35,14 @@ const Container = styled.div`
 `;
 
 const Description = styled.span`
-  font-size: ${theme.fonts.heading}px;
   font-family: 'Pretendard';
   color: white;
+
+  @media screen and (${theme.device.mobile}) {
+    font-size: ${theme.fonts.p + 4}px;
+  }
+
+  @media screen and (${theme.device.desktop}) {
+    font-size: ${theme.fonts.heading}px;
+  }
 `;

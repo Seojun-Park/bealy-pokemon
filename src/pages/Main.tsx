@@ -12,6 +12,7 @@ import {
   SearchBar,
 } from '../components';
 import { useFavoriteContext, useSearchContext } from '../contexts';
+import { theme } from '../utils/theme';
 
 export const Main: FC = () => {
   const { favorites } = useFavoriteContext();
@@ -136,6 +137,13 @@ const Container = styled.div`
 
 const PaginationBox = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  
+  @media screen and (${theme.device.mobile}) {
+    flex-direction: column;
+  }
+  
+  @media screen and (${theme.device.desktop}) {
+  }
 `;
